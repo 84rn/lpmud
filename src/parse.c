@@ -1250,7 +1250,7 @@ number_parse(struct vector *wvec, int *cix_in, int *fail)
 		return &stmp;
 	    }
 	}
-#endif 0
+#endif
 }
 
 void

@@ -32,6 +32,17 @@ static char *output, *end;
 
 /* VARARGS3 */
 int
+vsnprintf(char *str, size_t count, const char *fmt, va_list args)
+{
+    str[0] = 0;
+    end = str + count - 1;
+    dopr(str, fmt, args);
+    if (count > 0)
+	end[0] = 0;
+    return strlen(str);
+}
+
+int
 snprintf(char *str, size_t count, const char *fmt, ...)
 {
     va_list ap;
@@ -41,17 +52,6 @@ snprintf(char *str, size_t count, const char *fmt, ...)
     len = vsnprintf(str, count, fmt, ap);
     va_end(ap);
     return len;
-}
-
-int
-vsnprintf(char *str, size_t count, const char *fmt, va_list args)
-{
-    str[0] = 0;
-    end = str + count - 1;
-    dopr(str, fmt, args);
-    if (count > 0)
-	end[0] = 0;
-    return strlen(str);
 }
 
 static void

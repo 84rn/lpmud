@@ -216,25 +216,25 @@ debug_command(char *debcmd, int argc, struct svalue *argv)
 #endif
 	    (void)sprintf(buff, "user time used\t\t\t%ld\nsystem time used\t\t%ld\n",
 		    utime, stime);
-	    (void)sprintf(buff, "%smaximum resident set size\t%ld\n",	    
-		     buff, maxrss);
-	    (void)sprintf(buff, "%sintegral shared memory size\t%ld\n",
-		     buff, rus.ru_ixrss);
-	    (void)sprintf(buff, "%sintegral unshared memory size\t%ld\n",
-		     buff, rus.ru_idrss);
-	    (void)sprintf(buff, "%sintegral unshared stack size\t%ld\n",
-		     buff, rus.ru_isrss);
-	    (void)sprintf(buff, "%spage reclaims\t\t\t%ld\npage faults\t\t\t%ld\n",
-		     buff, rus.ru_minflt, rus.ru_majflt);
-	    (void)sprintf(buff, "%sswaps\t\t\t\t%ld\nblock input operations\t\t%ld\n",
-		     buff, rus.ru_nswap, rus.ru_inblock);
-	    (void)sprintf(buff, "%sblock output operations\t\t%ld\nmessages sent\t\t\t%ld\n",
-		     buff, rus.ru_oublock, rus.ru_msgsnd);
-	    (void)sprintf(buff, "%smessages received\t\t%ld\nsignals received\t\t%ld\n",
-		     buff, rus.ru_msgrcv, rus.ru_nsignals);
-	    (void)sprintf(buff, "%svoluntary context switches\t%ld\ninvoluntary context switches\t%ld\n",
-		     buff, rus.ru_nvcsw, rus.ru_nivcsw);
-	    (void)sprintf(buff, "%s\n", buff);
+	    (void)sprintf(buff + strlen(buff), "maximum resident set size\t%ld\n",	    
+		     maxrss);
+	    (void)sprintf(buff + strlen(buff), "integral shared memory size\t%ld\n",
+		     rus.ru_ixrss);
+	    (void)sprintf(buff + strlen(buff), "integral unshared memory size\t%ld\n",
+		     rus.ru_idrss);
+	    (void)sprintf(buff + strlen(buff), "integral unshared stack size\t%ld\n",
+		     rus.ru_isrss);
+	    (void)sprintf(buff + strlen(buff), "page reclaims\t\t\t%ld\npage faults\t\t\t%ld\n",
+		     rus.ru_minflt, rus.ru_majflt);
+	    (void)sprintf(buff + strlen(buff), "swaps\t\t\t\t%ld\nblock input operations\t\t%ld\n",
+		     rus.ru_nswap, rus.ru_inblock);
+	    (void)sprintf(buff + strlen(buff), "block output operations\t\t%ld\nmessages sent\t\t\t%ld\n",
+		     rus.ru_oublock, rus.ru_msgsnd);
+	    (void)sprintf(buff + strlen(buff), "messages received\t\t%ld\nsignals received\t\t%ld\n",
+		     rus.ru_msgrcv, rus.ru_nsignals);
+	    (void)sprintf(buff + strlen(buff), "voluntary context switches\t%ld\ninvoluntary context switches\t%ld\n",
+		     rus.ru_nvcsw, rus.ru_nivcsw);
+	    (void)sprintf(buff + strlen(buff), "\n"); 
 	}
 #endif /* SOLARIS */
 	retval.type = T_STRING;

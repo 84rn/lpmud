@@ -51,6 +51,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 #include <sys/types.h>
 
 #include "config.h"
@@ -1121,7 +1122,7 @@ string_print_formatted(int call_master, char *format_str, int argc, struct svalu
 		    {
 			cheat[i++] = '.';
 			cheat[i] = '\0';
-			(void)sprintf(cheat,"%s%d",cheat,prec);
+			(void)sprintf(cheat + strlen(cheat),"%d",prec);
 			i = strlen(cheat);
 		    }
 		    switch (finfo & INFO_T)

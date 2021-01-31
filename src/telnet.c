@@ -360,7 +360,7 @@ telnet_ayt(ndesc_t *nd, telnet_t *tp)
 {
     u_char version[13];
 
-    sprintf(version, "[%6.8s%02d]\r\n", GAME_VERSION, PATCH_LEVEL);
+    sprintf((char *)version, "[%6.8s%02d]\r\n", GAME_VERSION, PATCH_LEVEL);
 
     nq_puts(tp->t_outq, version);
 
@@ -698,50 +698,50 @@ telnet_neg_ldisab(telnet_t *tp, u_char opt)
 /*
  * Negotiate enabling an option in the remote-to-local direction.
  */
-static void
-telnet_neg_renab(telnet_t *tp, u_char opt)
-{
-    opt_t *op;
-
-    op = telnet_get_optp(tp, opt);
-    if (op == NULL)
-	return;
-
-    switch (op->o_him)
-    {
-    case OS_NO:
-        op->o_him = OS_WANTYES;
-        telnet_send_do(tp, opt);
-        break;
-
-    case OS_YES:
-        break;
-
-    case OS_WANTNO:
-        switch (op->o_himq)
-        {
-        case OQ_EMPTY:
-            op->o_himq = OQ_OPPOSITE;
-            break;
-
-        case OQ_OPPOSITE:
-            break;
-        }
-        break;
-
-    case OS_WANTYES:
-        switch (op->o_himq)
-        {
-        case OQ_EMPTY:
-            break;
-
-        case OQ_OPPOSITE:
-            op->o_himq = OQ_EMPTY;
-            break;
-        }
-        break;
-    }
-}
+// static void
+// telnet_neg_renab(telnet_t *tp, u_char opt)
+// {
+//     opt_t *op;
+// 
+//     op = telnet_get_optp(tp, opt);
+//     if (op == NULL)
+// 	return;
+// 
+//     switch (op->o_him)
+//     {
+//     case OS_NO:
+//         op->o_him = OS_WANTYES;
+//         telnet_send_do(tp, opt);
+//         break;
+// 
+//     case OS_YES:
+//         break;
+// 
+//     case OS_WANTNO:
+//         switch (op->o_himq)
+//         {
+//         case OQ_EMPTY:
+//             op->o_himq = OQ_OPPOSITE;
+//             break;
+// 
+//         case OQ_OPPOSITE:
+//             break;
+//         }
+//         break;
+// 
+//     case OS_WANTYES:
+//         switch (op->o_himq)
+//         {
+//         case OQ_EMPTY:
+//             break;
+// 
+//         case OQ_OPPOSITE:
+//             op->o_himq = OQ_EMPTY;
+//             break;
+//         }
+//         break;
+//     }
+// }
 
 #if 0
 /*
@@ -1399,7 +1399,8 @@ telnet_cleanup(ndesc_t *nd, telnet_t *tp)
 static void
 telnet_accept(ndesc_t *nd, void *vp)
 {
-    int addrlen, s;
+    int s;
+    unsigned int addrlen; 
     struct sockaddr_in addr;
     telnet_t *tp;
     void *ip;

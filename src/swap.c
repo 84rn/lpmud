@@ -83,7 +83,7 @@ static int swap_io = SWAPIO_UNDEFINED;
 static int swap_fd;
 static off_t swap_off = -1;
 #endif
-static char swap_file[80];
+static char swap_file[100];
 static u_long *swap_bitmap;
 u_int swap_cursize;
 u_int swap_minfree;

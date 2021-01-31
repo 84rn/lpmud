@@ -10,6 +10,7 @@
 
 #include "config.h"
 #include "lint.h"
+#include "port.h"
 
 #ifdef DRAND48
 #include "drand48.h"
@@ -121,7 +122,7 @@ random_float()
  */
 
 void 
-set_current_time() 
+set_current_time(void)
 {
     static long alarm_base_time, alarm_last_time;
     struct timeval tv;

@@ -23,6 +23,7 @@
 #include "comm1.h"
 #include "simulate.h"
 #include "swap.h"
+#include "port.h"
 
 #ifdef DRAND48
 #include "drand48.h"
@@ -417,7 +418,7 @@ debug_message(char *fmt, ...)
 
     static FILE *fp = NULL;
     char deb[100];
-    char name[100];
+    char name[50];
 
     if (fp == NULL) {
 #ifdef _SEQUENT_

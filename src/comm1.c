@@ -57,7 +57,6 @@ extern void debug_message(char *, ...), free_sentence(struct sentence *);
 
 struct interactive *all_players[MAX_PLAYERS];
 
-extern int errno;
 extern struct object *current_interactive;
 extern struct object *previous_ob;
 #ifdef CATCH_UDP_PORT

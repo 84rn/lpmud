@@ -105,7 +105,8 @@ udpsvc_send(char *dest, int port, char *cp)
 static void
 udpsvc_read(ndesc_t *nd, nqueue_t *nq)
 {
-    int addrlen, cc;
+    int cc;
+    unsigned int addrlen; 
     struct sockaddr_in addr;
 
     addrlen = sizeof (addr);

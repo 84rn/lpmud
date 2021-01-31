@@ -353,7 +353,8 @@ hname_cleanup(ndesc_t *nd, hname_t *hp)
 void
 hname_init()
 {
-    int s, ns, addrlen, pid;
+    int s, ns, pid;
+    unsigned int addrlen; 
     struct sockaddr_in addr;
     char path[MAXPATHLEN];
     hname_t *hp;
@@ -412,9 +413,9 @@ hname_init()
 	    (void)close(s);
 
 	strncpy(path, BINDIR, sizeof (path));
-	strncat(path, "/hname", sizeof (path));
+	strncat(path, "/hname", sizeof (path) - 1);
 
-	(void)execl(path, "hname", 0);
+	(void)execl(path, "hname", (char *)0);
 
         (void)fprintf(stderr, "exec of hname failed.\n");
 

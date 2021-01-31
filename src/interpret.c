@@ -1554,7 +1554,7 @@ static void
 f_call_c(int num_arg)
 {
     void (*func)(struct svalue *);
-    int f1 = 0;
+    intptr_t f1 = 0;
 #ifdef __alpha
     int f2 = 0;
 #endif

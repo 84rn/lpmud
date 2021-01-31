@@ -160,3 +160,9 @@ typedef int	bool_t;
 #ifndef TRUE
 #define	TRUE	1
 #endif
+
+
+INLINE void 
+push_vector(struct vector *v, bool_t reference);
+INLINE void 
+push_mapping(struct mapping *v, bool_t reference);

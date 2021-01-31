@@ -321,7 +321,8 @@ tcpsvc_cleanup(ndesc_t *nd, tcpsvc_t *tsp)
 static void
 tcpsvc_accept(ndesc_t *nd, void *vp)
 {
-    int s, addrlen;
+    int s;
+    unsigned int addrlen;
     struct sockaddr_in addr;
     tcpsvc_t *tsp;
 

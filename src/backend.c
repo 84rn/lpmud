@@ -26,6 +26,7 @@
 #include "signals.h"
 #include "comm1.h"
 #include "simulate.h"
+#include "port.h"
 
 struct gdexception *exception = NULL;
 /*

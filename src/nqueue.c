@@ -34,10 +34,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <string.h>
 #include "config.h"
 #include "lint.h"
 #include "nqueue.h"
-
 /*
  * Network Queues
  */
@@ -200,7 +200,7 @@ nq_puts(nqueue_t *nq, u_char *cp)
 {
     int len, size;
 
-    len = strlen(cp);
+    len = strlen((const char *)cp);
 
     while (len > 0)
     {

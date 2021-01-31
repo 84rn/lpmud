@@ -183,6 +183,8 @@ static int initdone = 0;
 extern char *sbrk(int);
 #elif defined(SOLARIS)
 extern void *sbrk(int);
+#elif defined(linux)
+extern void *sbrk(intptr_t);
 #else
 extern void *sbrk();
 #endif

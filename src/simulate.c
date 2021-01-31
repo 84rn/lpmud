@@ -41,7 +41,6 @@
 
 #include "inline_svalue.h"
 
-extern int errno;
 extern int comp_flag;
 
 char *inherit_file;
