@@ -5,7 +5,7 @@
   debug switches are managed from here.
 
 */
-#include <varargs.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>

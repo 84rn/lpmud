@@ -6,9 +6,6 @@
 	assign_svalue_no_free(sp, val); \
     }
 
-extern struct svalue *sp;
-extern struct svalue start_of_stack[];
-
 union u {
     char *string;
     int number;
@@ -30,6 +27,9 @@ struct svalue {
     short string_type;
     union u u;
 };
+
+extern struct svalue *sp;
+extern struct svalue start_of_stack[];
 
 #define T_INVALID	0x0
 #define T_LVALUE	0x1

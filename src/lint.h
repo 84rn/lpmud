@@ -51,7 +51,7 @@ struct vector;
 struct closure;
 
 #if defined(__GNUC__) && !defined(lint) && !defined(PROFILE)
-#define INLINE inline
+#define INLINE
 #else
 #define INLINE
 #endif

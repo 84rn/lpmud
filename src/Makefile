@@ -1,12 +1,14 @@
 # This line is needed on some machines. 
 MAKE=make
 
+# Root folder for lib/bin
+MUD_ROOT = /home/bart/git/lpmud
 # Set MUD_LIB to the directory which contains the mud data. Was formerly
 # defined in config.h !
-MUD_LIB = /home/arkadia/public-dist/lib
+MUD_LIB = $(MUD_ROOT)/lib
 
 # Set BINDIR to the directory where you want to install the executables.
-BINDIR = /home/arkadia/public-dist/bin
+BINDIR = $(MUD_ROOT)/bin
 
 # Specify the interface source files on the ISRC line, and the corresponding
 # object files on the IOBJ line.
@@ -52,11 +54,11 @@ RAND=DRAND48
 #YACC=byacc
 
 # Bison from the FSF. Produces good code. Is available for anonymous ftp.
-#YACC=bison -y
+YACC=/home/bart/Pobrane/bison-1.25/bison -y
 
 # Standard yacc. Should be available on any Unix system worth its salt.
 # WARNING: This will probably not work on all systems!
-YACC=yacc
+#YACC=yacc
 
 # If you don't have 'strchr', then add next flag to CFLAGS.
 # -Dstrchr=index -Dstrrchr=rindex
@@ -108,9 +110,9 @@ DEBUG=-DDEBUG
 # Linux
 #  Some versions might require -lcrypt added to SYS_LIBS
 SYS_CFLAGS=-pipe -D__USE_BSD_SIGNAL
-SYS_OPT=-O2 -fomit-frame-pointer
+SYS_OPT=-g -fomit-frame-pointer
 SYS_LIBS=-lcrypt
-CC=/usr/bin/gcc
+CC=gcc
 ULIBS=
 LINTFILTER=sedf.sun
 

@@ -320,7 +320,7 @@
  * with the -p### flag. Where ### is the portnumber for the service
  * port. If undefined the -p flag will be ignored.
  */
-#define SERVICE_PORT	3003
+#define SERVICE_PORT	3005
 
 /*
  * ALLOWED_SERVICE
