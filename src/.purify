@@ -1,0 +1,83 @@
+#       abr  -- array bounds violation read
+#       abw  -- array bounds violation write
+#       brk  -- misuse of brk or sbrk
+#       bsr  -- beyond stack read
+#       bsw  -- beyond stack write
+#       cor  -- core dump imminent
+#       fmr  -- free memory read
+#       fmw  -- free memory write
+#       fnh  -- freeing non heap memory
+#       fum  -- freeing unallocated memory
+#       maf  -- malloc failure
+#       mlk  -- memory leak
+#       mre  -- malloc reentrancy error
+#       mse  -- memory segment error
+#       npr  -- null pointer read
+#       npw  -- null pointer write
+#       par  -- bad parameter
+#       plk  -- potential memory leak
+#       sig  -- signal
+#       sof  -- stack overflow
+#       umc  -- uninitialized memory copy
+#       umr  -- uninitialized memory read
+#       wpf  -- watchpoint free
+#       wpm  -- watchpoint malloc
+#       wpn  -- watchpoint entry
+#       wpr  -- watchpoint read
+#       wpw  -- watchpoint write
+#       wpx  -- watchpoint exit
+#       zpr  -- zero page read
+#       zpw  -- zero page write
+
+# Enable all warnings
+unsuppress abr *
+unsuppress abw *
+unsuppress brk *
+unsuppress bsr *
+unsuppress bsw *
+unsuppress cor *
+unsuppress fmr *
+unsuppress fmw *
+unsuppress fnh *
+unsuppress fum *
+unsuppress maf *
+unsuppress mlk *
+unsuppress mre *
+unsuppress mse *
+unsuppress npr *
+unsuppress npw *
+unsuppress par *
+unsuppress plk *
+unsuppress sig *
+unsuppress sof *
+unsuppress umc *
+unsuppress umr *
+unsuppress wpf *
+unsuppress wpm *
+unsuppress wpn *
+unsuppress wpr *
+unsuppress wpw *
+unsuppress wpx *
+unsuppress zpr *
+unsuppress zpw *
+
+# Disable these; SunOS specific
+suppress umc setjmpnosav
+suppress umc decimal_to_double
+suppress umc _pack_double
+suppress umc res_query; res_querydomain; res_search; gethostbyname
+suppress umr _unpacked_to_decimal
+suppress par bcopy
+
+# No-one cares about leaks in on_exit:
+suppress mlk malloc; on_exit
+suppress plk malloc; on_exit
+
+#suppress umc memcpy; fwrite
+
+# Allow sbrk() to be called from bibopmalloc
+suppress brk sbrk; bibop_init; main
+
+# dump_malloc_data in bibopmalloc.c can read free'd memory
+suppress abr dump_malloc_data "bibopmalloc.c"
+suppress fmr dump_malloc_data "bibopmalloc.c"

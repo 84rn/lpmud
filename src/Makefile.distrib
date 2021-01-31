@@ -1,0 +1,178 @@
+# This line is needed on some machines. 
+MAKE=make
+
+SRC=array.c backend.c binaries.c call_out.c comm1.c debug.c ed.c	  \
+    hash.c hname.c interface.c interpret.c lex.c main.c mapping.c	  \
+    mstring.c mudstat.c ndesc.c net.c nqueue.c object.c otable.c parse.c  \
+    port.c regexp.c signals.c simulate.c simul_efun.c sprintf.c		  \
+    super_snoop.c swap.c tcpsvc.c telnet.c udpsvc.c wildmat.c		  \
+    $(MALLOC).c $(MISSING_SRC)
+
+CSRC=${SRC} lang.c
+
+HEADERS=comm.h config.h events.h exec.h incralloc.h inline_eqs.h	  \
+	inline_svalue.h instrs.h interface.h interpret.h mapping.h	  \
+	master.h master.t mstring.h mudstat.h net.h object.h patchlevel.h \
+	regexp.h sent.h
+
+OBJ=array.o backend.o binaries.o call_out.o comm1.o debug.o ed.o	  \
+    hash.o hname.o interface.o interpret.o lex.o main.o mapping.o	  \
+    mstring.o mudstat.o ndesc.o net.o nqueue.o object.o otable.o parse.o  \
+    port.o regexp.o signals.o simulate.o simul_efun.o sprintf.o		  \
+    super_snoop.o swap.o tcpsvc.o telnet.o udpsvc.o wildmat.o 		  \
+    $(MALLOC).o $(MISSING_OBJ)
+
+MPATH=-DMUD_LIB=\"$(MUD_LIB)\"
+BINPATH=-DBINDIR=\"$(BINDIR)\"
+
+.c.o:
+	$(CC) $(CFLAGS) $(MPATH) $(BINPATH) -o $@ -c $<
+
+driver: $(OBJ) lang.o ${IOBJ}
+	$(CC) $(CFLAGS) $(OBJ) lang.o ${IOBJ} -o driver $(LIBS)
+
+func_spec.i: func_spec.c
+	$(CC) -E $(CFLAGS) func_spec.c > func_spec.i
+
+master.t master.h: master.n genfkntab
+	./genfkntab m master <master.n
+
+make_func.c: make_func.y
+	$(YACC) make_func.y
+	mv y.tab.c make_func.c
+
+genfkntab: genfkntab.o
+	$(CC) genfkntab.o -o genfkntab
+
+make_func: make_func.o
+	$(CC) make_func.o -o make_func
+
+make_table: make_table.o
+	$(CC) make_table.o -o make_table
+
+efun_table.h: lang.h make_table
+	./make_table lang.h efun_table.h
+
+lang.y efun_defs.c: func_spec.i make_func prelang.y postlang.y config.h
+	./make_func > tmp_efun_defs
+	sed -e "s/,,/,T_STRING|T_NUMBER|T_POINTER|T_OBJECT|T_MAPPING|T_FLOAT|T_FUNCTION,/" tmp_efun_defs > efun_defs.c
+	rm tmp_efun_defs
+
+lint: $(CSRC) $(HEADERS) efun_table.h
+	lint $(LINTFLAGS) $(MPATH) $(BINPATH) $(CSRC) $(ISRC) $(LIBS) | sed -n -f util/$(LINTFILTER)
+
+lang.c lang.h: lang.y
+	$(YACC) -d lang.y
+	mv y.tab.c lang.c
+	mv y.tab.h lang.h
+
+install:
+	-mv $(BINDIR)/driver $(BINDIR)/driver.old
+	-cp driver $(BINDIR)/driver
+
+check:
+	sh regress.sh
+
+clean:
+	-rm -f *.o lang.h lang.c lexical.c mon.out *.ln tags
+	-rm -f parse core TAGS 
+	-rm -f config.status lpmud.log
+	-rm -f clib/*.o
+	-rm -f driver driver.old
+	-rm -f efun_defs.c efun_table.h
+	-rm -f lang.y
+	-rm -f make_func make_func.c make_table func_spec.i
+	-rm -f master.h master.t genfkntab
+	(cd util ; echo "Cleaning in util." ; $(MAKE) clean)
+
+tags: $(SRC)
+	ctags prelang.y postlang.y $(SRC)
+
+TAGS: $(SRC) $(HEADERS)
+	ctags -t prelang.y postlang.y $(SRC) $(HEADERS)
+
+depend: $(CSRC) ${ISRC} make_func.c efun_table.h master.h
+	sed '/^# DO NOT DELETE THIS LINE/q' Makefile.distrib > makefile.tmp
+	gcc -MM ${CSRC} ${ISRC} make_func.c >> makefile.tmp
+	mv makefile.tmp Makefile.distrib
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+array.o: array.c config.h lint.h master.h mstring.h interpret.h \
+ object.h regexp.h mapping.h exec.h main.h simulate.h inline_eqs.h \
+ inline_svalue.h
+backend.o: backend.c config.h lint.h master.h interpret.h ndesc.h \
+ object.h exec.h comm.h mudstat.h super_snoop.h signals.h comm1.h \
+ simulate.h
+binaries.o: binaries.c config.h lint.h master.h mstring.h interpret.h \
+ object.h exec.h swap.h
+call_out.o: call_out.c config.h lint.h master.h mstring.h interpret.h \
+ exec.h object.h mudstat.h main.h simulate.h call_out.h
+comm1.o: comm1.c config.h lint.h master.h mstring.h interpret.h comm.h \
+ object.h sent.h simulate.h super_snoop.h ndesc.h hname.h nqueue.h \
+ telnet.h tcpsvc.h udpsvc.h
+debug.o: debug.c config.h lint.h master.h mstring.h exec.h interpret.h \
+ swap.h udpsvc.h object.h instrs.h patchlevel.h comm.h mapping.h \
+ mudstat.h bibopmalloc.h simulate.h comm1.h super_snoop.h \
+ inline_svalue.h
+ed.o: ed.c config.h lint.h master.h regexp.h interpret.h object.h \
+ exec.h comm.h comm1.h mstring.h mapping.h simulate.h inline_svalue.h
+hash.o: hash.c
+hname.o: hname.c config.h lint.h master.h net.h comm.h nqueue.h \
+ ndesc.h hname.h
+interface.o: interface.c lint.h master.h interface.h config.h exec.h \
+ interpret.h
+interpret.o: interpret.c config.h lint.h master.h mstring.h	\
+ lang.h exec.h interpret.h object.h instrs.h comm.h mapping.h mudstat.h	\
+ lex.h comm1.h simulate.h swap.h main.h inline_eqs.h inline_svalue.h	\
+ efun_table.h master.t
+lex.o: lex.c config.h instrs.h lint.h master.h lang.h interpret.h \
+ exec.h lex.h mstring.h mudstat.h efun_table.h efun_defs.c
+main.o: main.c config.h lint.h master.h interpret.h object.h lex.h \
+ exec.h mudstat.h comm1.h simulate.h swap.h
+mapping.o: mapping.c config.h lint.h master.h exec.h interpret.h \
+ object.h instrs.h comm.h mapping.h hash.h simulate.h mstring.h \
+ inline_eqs.h inline_svalue.h
+mstring.o: mstring.c config.h lint.h master.h mstring.h hash.h
+mudstat.o: mudstat.c config.h lint.h master.h mudstat.h
+ndesc.o: ndesc.c config.h lint.h master.h ndesc.h
+net.o: net.c config.h simulate.h lint.h master.h nqueue.h
+nqueue.o: nqueue.c config.h lint.h master.h nqueue.h
+object.o: object.c config.h lint.h master.h mstring.h interpret.h \
+ object.h comm.h super_snoop.h sent.h exec.h mapping.h mudstat.h hash.h    \
+ swap.h main.h simulate.h inline_svalue.h
+otable.o: otable.c config.h lint.h master.h interpret.h object.h \
+ hash.h simulate.h
+parse.o: parse.c config.h lint.h master.h mstring.h interpret.h \
+ object.h exec.h simulate.h mapping.h inline_svalue.h
+port.o: port.c config.h lint.h master.h
+regexp.o: regexp.c config.h regexp.h lint.h master.h
+signals.o: signals.c config.h lint.h master.h interpret.h
+simulate.o: simulate.c config.h lint.h master.h mstring.h interpret.h \
+ object.h mapping.h sent.h exec.h comm.h mudstat.h incralloc.h \
+ swap.h call_out.h main.h comm1.h simulate.h inline_svalue.h
+simul_efun.o: simul_efun.c config.h lint.h master.h mstring.h \
+ interpret.h object.h exec.h lex.h simulate.h
+sprintf.o: sprintf.c config.h lint.h master.h interpret.h mapping.h \
+ object.h sent.h simulate.h mstring.h inline_svalue.h
+super_snoop.o: super_snoop.c config.h object.h comm.h super_snoop.h
+swap.o: swap.c config.h lint.h master.h mstring.h interpret.h object.h \
+ exec.h mudstat.h mapping.h main.h simulate.h inline_svalue.h
+tcpsvc.o: tcpsvc.c config.h lint.h master.h interpret.h simulate.h \
+ ndesc.h nqueue.h net.h
+telnet.o: telnet.c config.h patchlevel.h lint.h master.h main.h \
+ interpret.h simulate.h nqueue.h ndesc.h net.h telnet.h comm.h
+udpsvc.o: udpsvc.c config.h lint.h master.h main.h interpret.h \
+ simulate.h ndesc.h nqueue.h net.h
+wildmat.o: wildmat.c
+bibopmalloc.o: bibopmalloc.c
+lang.o: lang.c config.h lint.h master.h interface.h exec.h interpret.h \
+ object.h instrs.h incralloc.h mstring.h simulate.h efun_table.h
+efun.o: clib/efun.c clib/../lint.h clib/../master.h \
+ clib/../interface.h clib/../config.h clib/../exec.h \
+ clib/../interpret.h clib/../object.h clib/../mstring.h \
+ clib/../simulate.h
+stdobject.o: clib/stdobject.c clib/../lint.h clib/../master.h \
+ clib/../interface.h clib/../config.h clib/../exec.h \
+ clib/../interpret.h clib/../object.h clib/../mstring.h \
+ clib/../mapping.h clib/../simulate.h clib/../inline_svalue.h
+make_func.o: make_func.c config.h

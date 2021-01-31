@@ -1,0 +1,41 @@
+Mudlib i driver znajduj±ce siê w tej dystrybucji s± rozszerzeniem oryginalnego
+mudliba i drivera CD. Najnowsze wersje orygina³ów mo¿na ¶ci±gn±æ ze strony WWW
+muda Genesis - http://genesis.cs.chalmers.se.
+
+Czê¶æ modyfikacji polega³a na "spolszczeniu", tzn. takim przerobieniu mudliba
+i drivera, by obs³ugiwa³ polsk± gramatykê. Zmiany w driverze koncentruj± siê 
+g³ównie w pliku parse.c.
+
+Spolszczenie jest jednak tylko ma³± czê¶ci± ogó³u wprowadzonych zmian. 
+Dokonywali¶my ich wszêdzie tam, gdzie uznawali¶my, ¿e mo¿na w elegancki
+sposób urealniæ mechanikê gry, polepszyæ jej funkcjonalno¶æ pod k±tem osób
+rozwijaj±cych muda, czy te¿ poprawiæ b³êdy twórców pierwowzoru. 
+
+Mudlib i driver rozwijane by³y na Arkadii. Postanowili¶my podzieliæ siê
+efektami naszej pracy, maj±c na uwadze przyspieszenie rozwoju tego kodu.
+Mamy te¿ przeto nadziejê, ¿e zostaniemy powiadomieni o wszelkich ciekawszych
+zmianach wprowadzonych do drivera i/lub mudliba na innych mudach, które
+skorzystaj± z efektów naszej pracy.
+
+Najnowsz± wersjê tej dystrybucji bêdzie mo¿na zdobyæ pod adresem:
+ftp://arkadia@ftp.arkadia.rpg.pl
+
+¬ród³a drivera znajduj± siê w podkatalogu src. Aby zainstalowaæ muda nale¿y:
+ - przeedytowaæ pliki src/config.h (g³ównie numer portu) i src/Makefile
+   (¶cie¿ki, rodzaj systemu, parser, opcje kompilacji)
+ - wykonaæ kolejno 'make', 'make install', 'make install_utils'
+ - aby uruchomiæ muda odpalamy 'bin/restart_mud' i ³±czymy siê telnetem
+   na ustalony przez nas wcze¶niej port (w config.h; domy¶lnie - 2300).
+ - logujemy siê na postaæ czarodzieja o imieniu 'root' (bez has³a); ma
+   on maksymalne mo¿liwe uprawnienia na mudzie.
+
+W przypadku ewentualnych problemów, proszê, nie zawracaj nimi g³owy
+czarodziejom jakiegokolwiek muda i postaraj siê samemu (lub sama) znale¼æ
+rozwi±zanie. Tworzenie nowego muda ma w sobie wiele du¿o trudniejszych
+etapów; je¶li nie jeste¶ w stanie przeskoczyæ tego, byæ mo¿e nie warto siê
+anga¿owaæ w tak du¿e przedsiêwziêcie.
+
+Je¶li jednak jeste¶ wystarczaj±co zdeterminowany/a, 
+gor±co ¿yczê Ci powodzenia!
+
+Alvin@Arkadia
