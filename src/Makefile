@@ -2,7 +2,7 @@
 MAKE=make
 
 # Set the root directory for mudlib/driver
-MUDROOT = /mud
+MUDROOT = /home/bart/git/lpmud
 
 # Set MUDLIB to the directory which contains the mud data. Was formerly
 # defined in config.h !
