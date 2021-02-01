@@ -3,3 +3,5 @@ lib/binaries/
 *.swp
 *.o
 *LP_SWAP*
+tags
+TAGS
