@@ -22,8 +22,8 @@ OBJ=array.o backend.o binaries.o call_out.o comm1.o debug.o ed.o	  \
     super_snoop.o swap.o tcpsvc.o telnet.o udpsvc.o wildmat.o 		  \
     $(MALLOC).o $(MISSING_OBJ)
 
-MPATH=-DMUD_LIB=\"$(MUD_LIB)\"
-BINPATH=-DBINDIR=\"$(BINDIR)\"
+MPATH=-DMUDLIB=\"$(MUDLIB)\"
+BINPATH=-DMUDBIN=\"$(MUDBIN)\"
 
 .c.o:
 	$(CC) $(CFLAGS) $(MPATH) $(BINPATH) -o $@ -c $<
@@ -67,8 +67,8 @@ lang.c lang.h: lang.y
 	mv y.tab.h lang.h
 
 install:
-	-mv $(BINDIR)/driver $(BINDIR)/driver.old
-	-cp driver $(BINDIR)/driver
+	-mv $(MUDBIN)/driver $(MUDBIN)/driver.old
+	-cp driver $(MUDBIN)/driver
 
 check:
 	sh regress.sh

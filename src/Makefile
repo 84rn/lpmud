@@ -1,14 +1,15 @@
 # This line is needed on some machines. 
 MAKE=make
 
-# Root folder for lib/bin
-MUD_ROOT = /home/bart/git/lpmud
-# Set MUD_LIB to the directory which contains the mud data. Was formerly
-# defined in config.h !
-MUD_LIB = $(MUD_ROOT)/lib
+# Set the root directory for mudlib/driver
+MUDROOT = /mud
 
-# Set BINDIR to the directory where you want to install the executables.
-BINDIR = $(MUD_ROOT)/bin
+# Set MUDLIB to the directory which contains the mud data. Was formerly
+# defined in config.h !
+MUDLIB = $(MUDROOT)/lib
+
+# Set MUDBIN to the directory where you want to install the executables.
+MUDBIN = $(MUDROOT)/bin
 
 # Specify the interface source files on the ISRC line, and the corresponding
 # object files on the IOBJ line.
@@ -17,8 +18,8 @@ ISRC= clib/efun.c clib/stdobject.c clib/gl_language.c
 IOBJ= clib/efun.o clib/stdobject.o clib/gl_language.o
 
 # List of objects that might not exist in your standard library
-# Select from: drand48.[co], strerror.[co], strpbrk.[co], strtod.[co],
-#              snprintf.[co], vprintf.[co]
+# Select from: ualarm.[co], drand48.[co], strerror.[co], strpbrk.[co],
+#              strtod.[co], snprintf.[co], vprintf.[co]
 MISSING_SRC=drand48.c snprintf.c
 MISSING_OBJ=drand48.o snprintf.o
 
@@ -50,11 +51,11 @@ MALLOC=bibopmalloc
 RAND=DRAND48
 
 # Select a parser generator among the following:
+# Bison from the FSF. Produces good code. Is available for anonymous ftp.
+YACC=bison -y
+
 # The Berkely yacc. Produces the best code. Is available for anonymous ftp.
 #YACC=byacc
-
-# Bison from the FSF. Produces good code. Is available for anonymous ftp.
-YACC=/home/bart/Pobrane/bison-1.25/bison -y
 
 # Standard yacc. Should be available on any Unix system worth its salt.
 # WARNING: This will probably not work on all systems!
@@ -67,10 +68,10 @@ PROFIL=
 #PROFIL=-p -DMARK
 #PROFIL=-pg
 #PROFIL=-pg -non_shared
+
 #Enable warnings from the compiler, if wanted.
 WARN=-Wall -Wshadow -Wstrict-prototypes
-#WARN=
-#
+
 # Enable run time debugging. It will use more time and space.
 # When the flag is changed, be sure to recompile everything.
 # Simply comment out this line if not wanted.
@@ -78,35 +79,10 @@ WARN=-Wall -Wshadow -Wstrict-prototypes
 # DEBUG defined.
 # If you will not change anything, you are still strongly to have it defined,
 # as long as the game is not bug free.
-#DEBUG=
-DEBUG=-DDEBUG
-#
-#
+DEBUG=
+#DEBUG=-DDEBUG
 
 # System dependent flags
-# VAX BSD gcc
-#SYS_CFLAGS=-DVAX_BSD
-#SYS_OPT=-g -O2
-#SYS_LIBS=
-#ULIBS=
-#LINTFILTER=sedf.sun
-
-# OpenBSD (All platforms)
-#SYS_CFLAGS=
-#SYS_OPT=-g -O3
-#SYS_LIBS=
-#CC=gcc
-#ULIBS=
-#LINTFILTER=sedf.sun
-
-# NetBSD or FreeBSD
-#SYS_CFLAGS=-pipe
-#SYS_OPT=-g -O2
-#SYS_LIBS=-lcrypt
-#CC=gcc
-#ULIBS=
-#LINTFILTER=sedf.sun
-
 # Linux
 #  Some versions might require -lcrypt added to SYS_LIBS
 SYS_CFLAGS=-pipe -D__USE_BSD_SIGNAL
@@ -116,49 +92,6 @@ CC=gcc
 ULIBS=
 LINTFILTER=sedf.sun
 
-# BSD/OS 2.x, 3.x and 4.x
-#SYS_CFLAGS=-pipe
-#SYS_OPT=-g -O2
-#SYS_LIBS=
-#CC=gcc
-#ULIBS=
-#LINTFILTER=sedf.sun
-
-# SunOS 4 gcc
-#SYS_CFLAGS=
-#SYS_OPT=-g -O2
-#SYS_LIBS=
-#CC=gcc
-#ULIBS=-lresolv
-#LINTFILTER=sedf.sun
-
-# SunOS 5 gcc
-#SYS_CFLAGS=-pipe -DSOLARIS
-#SYS_OPT=-g -O2
-#SYS_LIBS=-lsocket -lnsl
-#CC=purify cc  -DSOLARIS
-#CC=gcc -DSOLARIS -g
-#CC=gcc -O -Wall -g
-#ULIBS=-lresolv -lsocket -lnsl
-#LINTFILTER=sedf.sysv
-
-# DEC Alpha cc
-#SYS_CFLAGS=
-#SYS_OPT=-g3 -O2 -Olimit 3000
-#SYS_LIB=
-#CC=cc
-#ULIBS=
-#LINTFILTER=sedf.sun
-
-# Irix
-#SYS_CFLAGS=-DSOLARIS
-#SYS_OPT=-g -O2
-#SYS_LIBS=
-#CC=gcc
-#ULIBS=
-#LINTFILTER=sedf.sysv
-
-
 CFLAGS=  $(SYS_CFLAGS) $(SYS_OPT) -DWORD_WRAP -D$(RAND) -DMALLOC_$(MALLOC) \
  $(WARN) $(DEBUG) $(DEBUG_MALLOC)
 LINTFLAGS=	$(CFLAGS)
@@ -167,10 +100,10 @@ LINTFLAGS=	$(CFLAGS)
 # Add extra libraries here.
 #
 LIBS= -lm $(SYS_LIBS)
-MFLAGS = "BINDIR=$(BINDIR)" "MUD_LIB=$(MUD_LIB)"
+MFLAGS = "MUDBIN=$(MUDBIN)" "MUDLIB=$(MUDLIB)"
 
 driver: DUMMY
-	$(MAKE) -f Makefile.distrib "CC=$(CC)" "CFLAGS=$(CFLAGS) $(PROFIL)" "YACC=$(YACC)" "LIBS=$(LIBS)" "ISRC=$(ISRC)" "IOBJ=$(IOBJ)" "MALLOC=$(MALLOC)" "MUD_LIB=$(MUD_LIB)" "BINDIR=$(BINDIR)" "MISSING_SRC=$(MISSING_SRC)" "MISSING_OBJ=$(MISSING_OBJ)" $@
+	$(MAKE) -f Makefile.distrib "CC=$(CC)" "CFLAGS=$(CFLAGS) $(PROFIL)" "YACC=$(YACC)" "LIBS=$(LIBS)" "ISRC=$(ISRC)" "IOBJ=$(IOBJ)" "MALLOC=$(MALLOC)" "MUDLIB=$(MUDLIB)" "MUDBIN=$(MUDBIN)" "MISSING_SRC=$(MISSING_SRC)" "MISSING_OBJ=$(MISSING_OBJ)" $@
 
 
 install.utils:
@@ -182,12 +115,12 @@ utils:
 	$(MAKE) $(MFLAGS) "CC=$(CC)" "CFLAGS=$(CFLAGS)" "LIBS=$(ULIBS)")
 
 install:
-	-$(MAKE) -f Makefile.distrib "BINDIR=$(BINDIR)" $@
+	-$(MAKE) -f Makefile.distrib "MUDBIN=$(MUDBIN)" $@
 
 tags:	TAGS
 
 clean depend lint TAGS:
-	-$(MAKE) -f Makefile.distrib "CC=$(CC)" "CFLAGS=$(CFLAGS)" "LINTFLAGS=$(LINTFLAGS)" "LINTFILTER=$(LINTFILTER)" "YACC=$(YACC)" "LIBS=$(LIBS)" "ISRC=$(ISRC)" "MALLOC=$(MALLOC)" "MUD_LIB=$(MUD_LIB)" "MISSING_SRC=$(MISSING_SRC)" $@
+	-$(MAKE) -f Makefile.distrib "CC=$(CC)" "CFLAGS=$(CFLAGS)" "LINTFLAGS=$(LINTFLAGS)" "LINTFILTER=$(LINTFILTER)" "YACC=$(YACC)" "LIBS=$(LIBS)" "ISRC=$(ISRC)" "MALLOC=$(MALLOC)" "MUDLIB=$(MUDLIB)" "MISSING_SRC=$(MISSING_SRC)" $@
 
 check:
 	-$(MAKE) -f Makefile.distrib $@

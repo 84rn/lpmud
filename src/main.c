@@ -212,8 +212,8 @@ main(int argc, char **argv)
 	}
     }
 
-    if (!new_mudlib && chdir(MUD_LIB) == -1) {
-        (void)fprintf(stderr, "Bad mudlib directory: %s\n", MUD_LIB);
+    if (!new_mudlib && chdir(MUDLIB) == -1) {
+        (void)fprintf(stderr, "Bad mudlib directory: %s\n", MUDLIB);
 	exit(1);
     }
 

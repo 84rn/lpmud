@@ -11,7 +11,7 @@ required to successfully compile the driver.  Pay special attention to the
 version of yacc being used.  AT&T yacc will NOT work.  byacc (standard on
 some systems) is the preferred yacc to use, GNU bison will also work.
 
-Make sure the MUD_LIB and BINDIR variables in your Makefile reflects where
+Make sure the MUDLIB and MUDBIN variables in your Makefile reflects where
 the mud's binaries and mudlib will be placed.
 
 There are several allocators supported by the driver.  The preferred one

@@ -412,7 +412,7 @@ hname_init()
 	for (s = 3; s < FD_SETSIZE; s++)
 	    (void)close(s);
 
-	strncpy(path, BINDIR, sizeof (path));
+	strncpy(path, MUDBIN, sizeof (path));
 	strncat(path, "/hname", sizeof (path) - 1);
 
 	(void)execl(path, "hname", (char *)0);
