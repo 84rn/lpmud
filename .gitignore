@@ -1,3 +1,5 @@
 bin/
+lib/binaries/
 *.swp
 *.o
+*LP_SWAP*
