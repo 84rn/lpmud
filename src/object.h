@@ -1,3 +1,6 @@
+#ifndef _object_h_
+#define _object_h_
+
 /*
  * Definition of an object.
  * If the object is inherited, then it must not be destructed !
@@ -84,3 +87,5 @@ int restore_one(struct svalue *, char **);
 void restore_map(struct object *, struct mapping *, char *);
 void create_object(struct object *);
 void recreate_object(struct object *, struct object *);
+
+#endif
