@@ -5,3 +5,16 @@ lib/binaries/
 *LP_SWAP*
 tags
 TAGS
+driver
+efun_defs.c
+efun_table.h
+func_spec.i
+genfkntab
+lang.c
+lang.h
+lang.y
+make_func
+make_func.c
+make_table
+master.h
+master.t
