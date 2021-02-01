@@ -82,7 +82,7 @@ optional_default: DEFAULT ':' ID { $$ = $3; } | /* empty */ { $$="0"; } ;
 
 func: type ID optional_ID '(' arg_list optional_default ')' ';'
     {
-	char buff[500];
+	char buff[700];
 	char f_name[500];
 	int i;
 	if (min_arg == -1)
