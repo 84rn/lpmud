@@ -52,7 +52,7 @@ RAND=DRAND48
 
 # Select a parser generator among the following:
 # Bison from the FSF. Produces good code. Is available for anonymous ftp.
-YACC=/home/bart/Pobrane/bison-1.25/bin/bison -y
+YACC=/home/bart/opt/bison-1.25/bin/bison -y
 
 # The Berkely yacc. Produces the best code. Is available for anonymous ftp.
 #YACC=byacc
